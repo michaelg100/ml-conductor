@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Dict, Optional, List, Union
 
 from ninja import Schema
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 
 
 class FramworkTypesT(str, Enum):
