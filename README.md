@@ -31,6 +31,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## Run Unit Tests
+
+```
+python manage.py test
+```
+
 # Concept
 Part one
 - general tool for features, models, logging etc,
