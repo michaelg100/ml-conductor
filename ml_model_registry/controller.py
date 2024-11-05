@@ -16,6 +16,7 @@ class ModelRegistryService:
                 ml_model = ModelMetadata.objects.create(
                     model_name=expirement.model_name,
                     location=expirement.location,
+                    feature_set=expirement.feature_set,
                     description=expirement.model_description
                 )
             except:
@@ -28,7 +29,6 @@ class ModelRegistryService:
                 expirement_model = ModelExpirementMetrics.objects.create(
                     model=ml_model,
                     metrics=expirement.metrics,
-                    feature_set=expirement.feature_set,
                     target_field=expirement.target_field,
                     description=expirement.expirement_description
                 )

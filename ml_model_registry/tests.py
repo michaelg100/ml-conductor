@@ -20,6 +20,7 @@ class TestModelRegistryAPI(TestCase):
         input = ModelExpirementInsertT(
             model_name="my ml model",
             location="s3://",
+            model_type="SCIKIT",
             model_description="test description",
             metrics={"cross": 1.3},
             feature_set=["feature a", "feature b"],
@@ -34,11 +35,12 @@ class TestModelRegistryAPI(TestCase):
             'model': {
                 'model_name': 'my ml model',
                 'location': 's3://',
+                'model_type': 'SCIKIT',
                 'description': 'test description',
+                'feature_set': ['feature a', 'feature b'],
                 'created': ANY
             }, 
             'metrics': {'cross': 1.3},
-            'feature_set': ['feature a', 'feature b'],
             'target_field': 'cost',
             'description': 'cost with adjusted data'
         }
@@ -59,11 +61,12 @@ class TestModelRegistryAPI(TestCase):
             'model': {
                 'model_name': 'my ml model 2',
                 'location': 's3://2',
+                'model_type': 'SCIKIT',
                 'description': None,
+                'feature_set': None,
                 'created': ANY
             }, 
             'metrics': None,
-            'feature_set': None,
             'target_field': None,
             'description': None
         }
