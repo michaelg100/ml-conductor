@@ -19,7 +19,7 @@ class ModelExpirementInsertT(BaseModel):
     location: str
     model_type: Optional[FramworkTypesT] = FramworkTypesT.Scikit
     model_description: Optional[str] = None
-    feature_set: Optional[List[str]] = None
+    feature_set: Optional[Dict[str, List[str]]] = None
     # expirement specific
     metrics: Optional[Dict[str, Union[str, int, float, List[str], List[int], List[float]]]] = None
     target_field: Optional[str] = None
@@ -33,7 +33,7 @@ class MLModelSchema(Schema):
     model_name: str
     location: str
     model_type: Optional[FramworkTypesT] = None
-    feature_set: Optional[List[str]] = None
+    feature_set: Optional[Dict[str, List[str]]] = None
     description: Optional[str] = None
     created: datetime
 

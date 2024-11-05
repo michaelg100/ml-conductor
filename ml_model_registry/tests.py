@@ -23,7 +23,7 @@ class TestModelRegistryAPI(TestCase):
             model_type="SCIKIT",
             model_description="test description",
             metrics={"cross": 1.3},
-            feature_set=["feature a", "feature b"],
+            feature_set={"feature table": ["feature a", "feature b"]},
             target_field="cost",
             expirement_description="cost with adjusted data"
         )
@@ -37,7 +37,7 @@ class TestModelRegistryAPI(TestCase):
                 'location': 's3://',
                 'model_type': 'SCIKIT',
                 'description': 'test description',
-                'feature_set': ['feature a', 'feature b'],
+                'feature_set': {"feature table": ["feature a", "feature b"]},
                 'created': ANY
             }, 
             'metrics': {'cross': 1.3},

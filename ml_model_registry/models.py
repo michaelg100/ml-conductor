@@ -10,7 +10,8 @@ class ModelMetadata(models.Model):
         PYTORCH = "PYTORCH", _("Pytorch")
         SCIKIT = "SCIKIT", _("Scikit")
     model_type = models.CharField(max_length=250, choices=ModelDataType.choices, default=ModelDataType.SCIKIT)
-    feature_set = models.JSONField(default=list, blank=list, null=True)
+    # store as [<feature store>: [<feature>,...],...]
+    feature_set = models.JSONField(default=dict, blank=dict, null=True)
     model_name = models.CharField(max_length=100, unique=True)
     location = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True, null=True)

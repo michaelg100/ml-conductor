@@ -2,7 +2,7 @@ from feature_logger.models import *
 from feature_logger.types import *
 
 
-class FeatureLogger:
+class FeatureLoggerService:
 
     @classmethod
     def log(cls, feature_log_data: FeatureLogT) -> None:

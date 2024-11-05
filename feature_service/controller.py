@@ -1,8 +1,7 @@
-from http import HTTPStatus
-from typing import Dict
-
 from django.db import transaction
+from http import HTTPStatus
 from ninja.errors import HttpError
+from typing import Dict
 
 from feature_service.models import *
 from feature_service.types import *
