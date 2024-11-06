@@ -38,9 +38,12 @@ python manage.py test
 ```
 
 # Concept
-Part one
-- general tool for features, models, logging etc,
-Part two
+Phase one (current)
+- general tool for storing feature data, model metadata, calling models, and logging model responses
+- not a goal to host a model, should be indiviudally served with something like TFX (for tensorflow)
+Phase two
+- kick off training jobs with workers and store off model files
+Phase three
 - CLI or API to go through typical flow, generate data -> model train -> model register + metrics -> deploy model
 
 
