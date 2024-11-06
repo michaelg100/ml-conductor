@@ -7,7 +7,6 @@ class RetreivalT(BaseModel):
     ml_model_name: str
     caching: bool = False
     log_response: bool = False
-    format_features_for_ml_model: bool = False
     extra_inputs: Optional[Dict[str, Any]]
     entity_ids = Dict[str, List[int]] # feature store -> ids
 

@@ -1,6 +1,9 @@
 import json
+import hashlib
 
 from http import HTTPStatus
+from django.conf import settings
+from django.core.cache import cache
 from django.utils import timezone
 from ninja.errors import HttpError
 
@@ -11,6 +14,8 @@ from feature_service.controller import FeatureService
 from ml_model_registry.models import ModelMetadata
 from orchestrator.types import *
 from orchestrator.model_caller_controller import *
+
+CACHING_ENABLED = settings.CACHING_ENABLED
 
 
 class OnlineOrcha:
@@ -87,9 +92,33 @@ class OnlineOrcha:
         )
 
     @classmethod
-    def _check_cache(cls, log: FeatureLogT):
-        pass
+    def _cache_key(entity_ids: List[int]) -> str:
+        try:
+            hash_object = hashlib.sha256(str(entity_ids).encode())
+            hex_dig = hash_object.hexdigest()
+            return hex_dig
+        except:
+            return
 
     @classmethod
-    def _store_cache(cls, log: ModelResponseT):
-        pass
+    def _check_cache(cls, entity_ids: List[int]) -> Optional[ModelResponseT]:
+        if not CACHING_ENABLED:
+            return
+        cache_key = cls._cache_key(entity_ids)
+        if not cache_key:
+            return
+        try:
+            res = cache.get(cache_key)
+            result = json.loads(res)
+            return result
+        except:
+            return
+
+    @classmethod
+    def _store_cache(cls,  entity_ids: List[int], model_response: ModelResponseT) -> None:
+        if not CACHING_ENABLED:
+            return
+        cache_key = cls._cache_key(entity_ids)
+        upload = model_response.model_dump_json()
+        cache.set(cache_key, upload, timeout=500)
+        return
