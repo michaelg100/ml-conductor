@@ -1,3 +1,5 @@
+import json
+
 from http import HTTPStatus
 from django.utils import timezone
 from ninja.errors import HttpError
@@ -8,14 +10,30 @@ from feature_service.types import FetchFeatures, FetchFormat, FeatureFetchRespon
 from feature_service.controller import FeatureService
 from ml_model_registry.models import ModelMetadata
 from orchestrator.types import *
+from orchestrator.model_caller_controller import *
 
 
 class OnlineOrcha:
 
     @classmethod
-    def call_ml_model(cls, feature_data: FeatureFetchResponse, model: ModelMetadata):
-        # maybe use Ray or something else
-        return {}
+    def _get_model_caller_for_type(cls, model_type: str, feature_data: FeatureFetchResponse) -> MLModelCaller:
+        match model_type:
+            case "TENSORFLOW":
+                return TensorflowModelCaller(features=feature_data)
+            case "PYTORCH":
+                return PytorchModelCaller(features=feature_data)
+            case "SCIKIT":
+                return ScikitModelCaller(features=feature_data)
+
+    @classmethod
+    def call_ml_model(cls, feature_data: FeatureFetchResponse, model: ModelMetadata) -> ModelResponseT:
+        try:
+            model_caller = cls._get_model_caller_for_type(model_type=model.model_type, feature_data=feature_data)
+            features = model_caller.format_features()
+            response = model_caller.serve(features=features)
+            return ModelResponseT(response_object={"result": response})
+        except Exception as e:
+            return ModelResponseT(error_object={"error": f"error during processing {e}"})
 
     @classmethod
     def retrieve(cls, prompt: RetreivalT) -> RetreivalResponseT:
@@ -47,30 +65,31 @@ class OnlineOrcha:
         # send to model
         result = cls.call_ml_model(feature_results, model)
         result_time = timezone.now()
-        # log model response
-        log = FeatureLogT(
-            data={
-                "model_response": result,
-                "result_time": result_time,
-                "features": finalized_features
-            }
-        )
-        FeatureLoggerService.log(log)
         # Cache response when enabled
         if prompt.caching:
             # encode input as SHA and store as string in cache
             cls._store_cache()
+        # log model response
+        if prompt.log_response:
+            log = FeatureLogT(
+                data={
+                    "model_response": result,
+                    "result_time": result_time,
+                    "features": finalized_features
+                }
+            )
+            FeatureLoggerService.log(log)
         # return model response
         return RetreivalResponseT(
             ml_model_name=prompt.ml_model_name,
-            response_object={},
+            response_object=result,
             result_time=result_time
         )
 
     @classmethod
-    def _check_cache(cls, ):
+    def _check_cache(cls, log: FeatureLogT):
         pass
 
     @classmethod
-    def _store_cache(cls, ):
+    def _store_cache(cls, log: ModelResponseT):
         pass
