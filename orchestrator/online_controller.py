@@ -45,7 +45,9 @@ class OnlineOrcha:
         # Check from cache when enabled
         if prompt.caching:
             # encode input as SHA and fetch from cache
-            cls._check_cache()
+            result = cls._check_cache(prompt.entity_ids)
+            if result:
+                return result
         # fetch feature columns from model
         model = ModelMetadata.objects.filter(model_name=prompt.ml_model_name).first()
         if not model:
@@ -73,7 +75,7 @@ class OnlineOrcha:
         # Cache response when enabled
         if prompt.caching:
             # encode input as SHA and store as string in cache
-            cls._store_cache()
+            cls._store_cache(prompt.entity_ids, result)
         # log model response
         if prompt.log_response:
             log = FeatureLogT(
