@@ -19,3 +19,9 @@ def get_model_expirement(request):
         model_name = request.query_params.get("model_name")
         return ModelExpirementMetrics.objects.filter(model_name__icontains=model_name)
     return ModelExpirementMetrics.objects.all()
+
+# Add Model Serving API URL
+@router.patch("/model/api-serve-url", response=MLModelAPIURL)
+def update_serving_api_url(request, payload: MLModelAPIURLUpdate):
+    res = ModelRegistryService.add_serving_api_url(model_name=payload.model_name, api_url=payload.api_url)
+    return MLModelAPIURL(result=res)

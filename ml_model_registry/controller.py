@@ -38,3 +38,12 @@ class ModelRegistryService:
                     message=f"{e}"
                 )
             return expirement_model
+
+    @classmethod
+    def add_serving_api_url(cls, model_name: str, api_url: str) -> str:
+        model = ModelMetadata.objects.filter(model_name=model_name).first()
+        if not model:
+            return "No model exists in ModelMetadata table with the name {model_name}"
+        model.api_url = api_url
+        model.save(update_fields=['api_url'])
+        return f"Updated the model's (name: {model_name}) API URL"

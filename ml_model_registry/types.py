@@ -47,3 +47,12 @@ class MLModelExpirementSchema(Schema):
     description: Optional[str] = None
 
     model_config = ConfigDict(protected_namespaces=())
+
+
+# Update the Serving API URL for a Model
+class MLModelAPIURLUpdate(BaseModel):
+    model_name: str
+    api_url: str
+
+class MLModelAPIURL(BaseModel):
+    result: str

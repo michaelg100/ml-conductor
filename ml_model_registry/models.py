@@ -17,6 +17,8 @@ class ModelMetadata(models.Model):
     description = models.TextField(blank=True, null=True)
     created = models.DateTimeField(default=timezone.now)
     last_modified = models.DateTimeField(auto_now=True)
+    # api
+    api_url = models.CharField(max_length=500, null=True, blank=True)
 
 
 class ModelExpirementMetrics(models.Model):

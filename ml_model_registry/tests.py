@@ -82,3 +82,22 @@ class TestModelRegistryAPI(TestCase):
         # get models
         response = self.client.get("/model/expirements")
         self.assertCountEqual(response.json(), [res1, res2])
+
+        # test that the model api url can be updated
+        input3 = MLModelAPIURLUpdate(
+            model_name="my ml model 2",
+            api_url="https://www.tf.com/model",
+        )
+        response3 = self.client.patch(
+            "/model/api-serve-url",
+            json=input3
+        )
+        self.assertEqual(
+            {"result": "Updated the model's (name: my ml model 2) API URL"},
+            response3.json()
+        )
+        model = ModelMetadata.objects.filter(model_name="my ml model 2").first()
+        self.assertEqual(
+            model.api_url,
+            "https://www.tf.com/model"
+        )

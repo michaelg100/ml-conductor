@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 # FEATURES ------
 
 # RETRIEVE
-type Feature = Union[str, int, float, List[str], List[int], List[float]]
+type Feature = Union[str, int, float, List[str], List[int], List[float], None]
 
 class FeatureTypes(IntEnum):
     string = 1

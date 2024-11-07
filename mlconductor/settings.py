@@ -149,13 +149,12 @@ if cache_location := os.environ.get('CACHE_LOCATION'):
         }
     }
 
+if cache_location:
+    CACHING_ENABLED = True
+else:
+    CACHING_ENABLED = False
 
 # Celery Workers
 if celery_broker := os.environ.get('CELERY_BROKER'):
     CELERY_BROKER_URL = os.environ.get(celery_broker)
     CELERY_RESULT_BACKEND = os.environ.get(celery_broker)
-
-if celery_broker:
-    CACHING_ENABLED = True
-else:
-    CACHING_ENABLED = False
