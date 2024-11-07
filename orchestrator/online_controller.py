@@ -18,7 +18,7 @@ from orchestrator.model_caller_controller import *
 CACHING_ENABLED = settings.CACHING_ENABLED
 
 
-class OnlineOrcha:
+class OnlineOrcaService:
 
     @classmethod
     def _get_model_caller_for_type(cls, model_type: str, feature_data: FeatureFetchResponse) -> MLModelCaller:
@@ -33,10 +33,11 @@ class OnlineOrcha:
     @classmethod
     def call_ml_model(cls, feature_data: FeatureFetchResponse, model: ModelMetadata) -> ModelResponseT:
         try:
-            model_caller = cls._get_model_caller_for_type(model_type=model.model_type, feature_data=feature_data)
-            features = model_caller.format_features()
-            response = model_caller.serve(features=features)
-            return ModelResponseT(response_object={"result": response})
+            # model_caller = cls._get_model_caller_for_type(model_type=model.model_type, feature_data=feature_data)
+            # features = model_caller.format_features()
+            # response = model_caller.serve(features=features)
+            # return ModelResponseT(response_object={"result": response})
+            return ModelResponseT(response_object={"result": 1.0})
         except Exception as e:
             return ModelResponseT(error_object={"error": f"error during processing {e}"})
 

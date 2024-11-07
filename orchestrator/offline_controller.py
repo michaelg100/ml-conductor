@@ -1,4 +1,4 @@
-class OfflineOrcha:
+class OfflineOrca:
     pass
 
     # wrap model script with metrics stuff

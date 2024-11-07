@@ -64,7 +64,7 @@ class TensorflowModelCaller(MLModelCaller):
         }
 
     def serve(self, features: Dict[str, Any]) -> Dict[str, Any]:
-        # requests.get TFX model
+        # requests.post TFX model
         # https://www.tensorflow.org/tfx/serving/api_rest
         return {"response": 1.0}
 
@@ -100,8 +100,7 @@ class ScikitModelCaller(MLModelCaller):
         }
 
     def serve(self, features: Dict[str, Any]) -> Dict[str, Any]:
-        # requests.get TFX model
-        # https://www.tensorflow.org/tfx/serving/api_rest
+        # requests.post model
         return {"response": 1.0}
 
 
@@ -136,6 +135,5 @@ class PytorchModelCaller(MLModelCaller):
         }
 
     def serve(self, features: Dict[str, Any]) -> Dict[str, Any]:
-        # requests.get TFX model
-        # https://www.tensorflow.org/tfx/serving/api_rest
+        # requests.post model
         return {"response": 1.0}

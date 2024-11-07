@@ -54,5 +54,7 @@ class MLModelAPIURLUpdate(BaseModel):
     model_name: str
     api_url: str
 
+    model_config = ConfigDict(protected_namespaces=())
+
 class MLModelAPIURL(BaseModel):
     result: str
